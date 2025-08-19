@@ -18,7 +18,7 @@ const ImagenesContainer = styled.section`
     gap: 24px;
 `
 
-const Galeria = ({fotos= [],setTag, alSeleccionarFoto, alAlternarFavorito}) => {
+const Galeria = ({fotos= [],setTag, alSeleccionarFoto, alAlternarFavorito, consulta}) => {
     return (
         <>
             <Tags setTag = {setTag}/>
@@ -26,7 +26,10 @@ const Galeria = ({fotos= [],setTag, alSeleccionarFoto, alAlternarFavorito}) => {
                 <SeccionFluida>
                     <Titulo>Navegue por la galería</Titulo>
                     <ImagenesContainer>
-                        {fotos.map(foto => <Imagen
+                        {fotos.filter(foto => {
+                            return consulta == '' || foto.titulo.toLocaleLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu,"").includes(consulta.toLocaleLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu,""))
+                        })
+                            .map(foto => <Imagen
                             alAlternarFavorito = {alAlternarFavorito}
                             alSolicitarZoom = {alSeleccionarFoto}
                             key={foto.id} 

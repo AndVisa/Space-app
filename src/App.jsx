@@ -31,13 +31,15 @@ const ContenidoGaleria = styled.section`
 `
 
 const App = () => {
+
+  const [consulta, setConsulta] = useState('')
   const [fotosDeGaleria, setFotosDeGaleria] = useState(fotos)
   const [filtro, setFiltro] = useState('')
   const [tag, setTag] = useState(0)
   const [fotoSeleccionada, setFotoSeleccionada] = useState(null)
 
   useEffect(() => {
-    const fotosFiltradas = fotos.filter(foto => {
+      const fotosFiltradas = fotos.filter(foto => {
       const filtroPorTag = !tag || foto.tagId === tag;
       const filtroPorTitulo = !filtro || foto.titulo.toLowerCase().includes(filtro.toLowerCase())
       return filtroPorTag && filtroPorTitulo
@@ -65,12 +67,12 @@ const App = () => {
       <FondoGradiente>
         <GlobalStyles/>
         <AppContainer>
-          <Header filtro = {filtro} setFiltro = {setFiltro}/>
+          <Header filtro={filtro} setFiltro={setFiltro} setConsulta={setConsulta}/>
           <MainContainer>
             <BarraLateral />
             <ContenidoGaleria>
               <Banner texto="La galería más completa de fotos del espacio" backgroundImage={banner}/>
-              <Galeria alSeleccionarFoto={foto => setFotoSeleccionada(foto)} fotos={fotosDeGaleria} alAlternarFavorito = {alAlternarFavorito} setTag = {setTag}/>
+              <Galeria alSeleccionarFoto={foto => setFotoSeleccionada(foto)} fotos={fotosDeGaleria} alAlternarFavorito={alAlternarFavorito} setTag={setTag} consulta={consulta}/>
             </ContenidoGaleria>
           </MainContainer>
         </AppContainer>

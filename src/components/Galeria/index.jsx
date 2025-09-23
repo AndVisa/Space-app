@@ -19,6 +19,7 @@ const ImagenesContainer = styled.section`
 `
 
 const Galeria = ({fotos= [],setTag, alSeleccionarFoto, alAlternarFavorito, consulta}) => {
+
     return (
         <>
             <Tags setTag = {setTag}/>

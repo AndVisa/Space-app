@@ -62,6 +62,10 @@ const App = () => {
     }))
   }
 
+  useEffect(() => {
+    console.log('Creando el componente de la aplicación');
+  }, [])
+
   return (
     <>
       <FondoGradiente>

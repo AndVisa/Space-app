@@ -5,10 +5,10 @@ import BarraLateral from "./components/BarraLateral"
 import Banner from "./components/Banner"
 import banner from "./assets/img/banner.png"
 import Galeria from "./components/Galeria"
-import fotos from "./fotos.json"
 import { useEffect, useState } from "react"
 import ModalZoom from "./components/ModalZoom"
 import Footer from "./components/Footer"
+import Cargando from "./components/Cargando"
 
 const FondoGradiente = styled.div`
 background: linear-gradient(174.61deg, #041833 4.16%, #04244F 48%, #154580 96.76%);
@@ -33,19 +33,19 @@ const ContenidoGaleria = styled.section`
 const App = () => {
 
   const [consulta, setConsulta] = useState('')
-  const [fotosDeGaleria, setFotosDeGaleria] = useState(fotos)
-  const [filtro, setFiltro] = useState('')
-  const [tag, setTag] = useState(0)
+  const [fotosDeGaleria, setFotosDeGaleria] = useState([])
+  // const [filtro, setFiltro] = useState('')
+  // const [tag, setTag] = useState(0)
   const [fotoSeleccionada, setFotoSeleccionada] = useState(null)
 
-  useEffect(() => {
-      const fotosFiltradas = fotos.filter(foto => {
-      const filtroPorTag = !tag || foto.tagId === tag;
-      const filtroPorTitulo = !filtro || foto.titulo.toLowerCase().includes(filtro.toLowerCase())
-      return filtroPorTag && filtroPorTitulo
-    })
-    setFotosDeGaleria(fotosFiltradas)
-  }, [filtro, tag])
+  // useEffect(() => {
+  //     const fotosFiltradas = fotos.filter(foto => {
+  //     const filtroPorTag = !tag || foto.tagId === tag;
+  //     const filtroPorTitulo = !filtro || foto.titulo.toLowerCase().includes(filtro.toLowerCase())
+  //     return filtroPorTag && filtroPorTitulo
+  //   })
+  //   setFotosDeGaleria(fotosFiltradas)
+  // }, [filtro, tag])
 
   const alAlternarFavorito = (foto) =>{
     if(foto.id === fotoSeleccionada?.id){
@@ -63,7 +63,12 @@ const App = () => {
   }
 
   useEffect(() => {
-    console.log('Creando el componente de la aplicación');
+    const getData = async () => {
+    const res = await fetch('http://localhost:3000/fotos')
+    const data = await res.json();
+    setFotosDeGaleria([...data]);
+  }
+    setTimeout(()=>getData(), 5000);
   }, [])
 
   return (
@@ -71,12 +76,16 @@ const App = () => {
       <FondoGradiente>
         <GlobalStyles/>
         <AppContainer>
-          <Header filtro={filtro} setFiltro={setFiltro} setConsulta={setConsulta}/>
+          <Header /*filtro={filtro} setFiltro={setFiltro}*/ setConsulta={setConsulta}/>
           <MainContainer>
             <BarraLateral />
             <ContenidoGaleria>
               <Banner texto="La galería más completa de fotos del espacio" backgroundImage={banner}/>
-              <Galeria alSeleccionarFoto={foto => setFotoSeleccionada(foto)} fotos={fotosDeGaleria} alAlternarFavorito={alAlternarFavorito} setTag={setTag} consulta={consulta}/>
+              {
+                fotosDeGaleria.length == 0 ?
+                <Cargando></Cargando> :
+                <Galeria alSeleccionarFoto={foto => setFotoSeleccionada(foto)} fotos={fotosDeGaleria} alAlternarFavorito={alAlternarFavorito} /*setTag={setTag}*/ consulta={consulta}/>
+              }
             </ContenidoGaleria>
           </MainContainer>
         </AppContainer>

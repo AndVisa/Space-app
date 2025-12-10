@@ -3,7 +3,7 @@ import React from "react";
 const Cargando = () => {
     return (
         <div style={{display: 'flex', justifyContent: 'center'}}>
-            <img src="imagenes/Loading.gif" style={{width: '30vw'}}/>
+            <img src="imagenes/Loading.gif" style={{width: '20vw', height: '20vw'}}/>
         </div>
     )
 }

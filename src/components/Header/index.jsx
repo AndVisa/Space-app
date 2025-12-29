@@ -14,10 +14,9 @@ const HeaderEstilizado = styled.header`
 
 
 const Header = () => {
-    const {setConsulta} = useContext(GlobalContext);
     return <HeaderEstilizado>
         <img src="imagenes/logo.png" alt="Logo de Space App" />
-        <CampoTexto setConsulta = {setConsulta} />
+        <CampoTexto />
     </HeaderEstilizado>
 }
 

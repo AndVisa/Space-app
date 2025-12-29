@@ -17,15 +17,23 @@ const reducer = (state, action) => {
         case 'SET_FOTO_SELECCIONADA':
             return {...state, fotoSeleccionada: action.payload};
         case 'ALTERNAR_FAVORITO':
-            return {...state,
-                fotosDeGaleria: fotosDeGaleria.map(foto => {
-                    return {
+            const fotosDeGaleria = state.fotosDeGaleria.map(fotosDeGaleria => {
+                return {
                     ...fotosDeGaleria,
-                    favorita: fotosDeGaleria.id === foto.id ? !foto.favorita : fotosDeGaleria.favorita
+                    favorita: fotosDeGaleria.id === action.payload.id ? !action.payload.favorita : fotosDeGaleria.favorita
+                }
+            });
+            if (action.payload.id === state.fotoSeleccionada?.id) {
+                return {
+                    ...state,
+                    fotosDeGaleria: fotosDeGaleria,
+                    fotoSeleccionada: {
+                        ...state.fotoSeleccionada, favorita: !state.fotoSeleccionada.favorita
                     }
-                }),
-                fotoSeleccionada: {
-                    ...state.fotoSeleccionada, favorita: !state.fotoSeleccionada.favorita
+                }
+            } else {
+                return {
+                    ...state, fotosDeGaleria: fotosDeGaleria
                 }
             }
         default:

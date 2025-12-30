@@ -6,6 +6,7 @@ const initialState = {
     consulta : '',
     fotosDeGaleria : [],
     fotoSeleccionada : null,
+    modalAbierto: false,
 }
 
 const reducer = (state, action) => {
@@ -15,7 +16,10 @@ const reducer = (state, action) => {
         case 'SET_FOTOS_DE_GALERIA':
             return {...state, fotosDeGaleria: action.payload};
         case 'SET_FOTO_SELECCIONADA':
-            return {...state, fotoSeleccionada: action.payload};
+            return {...state, 
+                fotoSeleccionada: action.payload,
+                modalAbierto: action.payload != null ? true : false
+            };
         case 'ALTERNAR_FAVORITO':
             const fotosDeGaleria = state.fotosDeGaleria.map(fotosDeGaleria => {
                 return {
